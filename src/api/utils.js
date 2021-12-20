@@ -5,13 +5,13 @@ export async function getPokemonList() {
   return data.results;
 }
 
-export async function getPokemonDescription() {
+export async function getPokemonDescription(id) {
   const pokemon = await fetch(
-    'https://pokeapi.co/api/v2/pokemon-species/1'
+    `https://pokeapi.co/api/v2/pokemon-species/${id}`
   ).then((res) => res.json());
   return pokemon.flavor_text_entries[0].flavor_text.replace(/[\n\f]/g, ' ');
 }
 
-export async function getPokemonImage() {
-  return 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png';
+export async function getPokemonImage(id) {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`;
 }

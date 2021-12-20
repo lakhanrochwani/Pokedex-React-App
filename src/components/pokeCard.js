@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { getPokemonDescription, getPokemonImage } from '../api/utils.js';
 
-const PokeCard = ({ pokemon }) => {
+const PokeCard = ({ pokemon, id, nextPokemon, prevPokemon }) => {
   let [name, setName] = useState(pokemon);
   let [img, setImg] = useState('');
   let [description, setDescription] = useState('');
 
   async function getPokemon() {
-    const pokemonData = await getPokemonDescription();
-    const pokemonImg = await getPokemonImage();
+    const pokemonData = await getPokemonDescription(id);
+    const pokemonImg = await getPokemonImage(id);
     setDescription(pokemonData);
     setImg(pokemonImg);
   }
   useEffect(() => {
     getPokemon();
-  }, []);
+  }, [id]);
   return (
     <>
       <hr />
@@ -27,8 +27,23 @@ const PokeCard = ({ pokemon }) => {
       <div>
         <p>{description}</p>
       </div>
-      <button>Prevous</button>&nbsp;
-      <button>Next</button>
+      <button
+        onClick={() => {
+          prevPokemon();
+        }}
+        disabled={id <= 1}
+      >
+        Prevous
+      </button>
+      &nbsp;
+      <button
+        onClick={() => {
+          nextPokemon();
+        }}
+        disabled={id >= 150}
+      >
+        Next
+      </button>
     </>
   );
 };
