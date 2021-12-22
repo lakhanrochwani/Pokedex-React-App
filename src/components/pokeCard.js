@@ -11,6 +11,7 @@ const PokeCard = ({ pokemon, id, nextPokemon, prevPokemon }) => {
     const pokemonImg = await getPokemonImage(id);
     setDescription(pokemonData);
     setImg(pokemonImg);
+    setName(pokemon);
   }
   useEffect(() => {
     getPokemon();
@@ -22,7 +23,7 @@ const PokeCard = ({ pokemon, id, nextPokemon, prevPokemon }) => {
         <img src={img} alt="pokemon_image" />
       </div>
       <div>
-        <h2>{name}</h2>
+        <h2>{name.toUpperCase()}</h2>
       </div>
       <div>
         <p>{description}</p>
@@ -31,7 +32,7 @@ const PokeCard = ({ pokemon, id, nextPokemon, prevPokemon }) => {
         onClick={() => {
           prevPokemon();
         }}
-        disabled={id <= 1}
+        // disabled={id <= 1}
       >
         Prevous
       </button>
@@ -40,7 +41,7 @@ const PokeCard = ({ pokemon, id, nextPokemon, prevPokemon }) => {
         onClick={() => {
           nextPokemon();
         }}
-        disabled={id >= 150}
+        // disabled={id >= 150}
       >
         Next
       </button>

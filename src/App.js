@@ -6,7 +6,7 @@ import './style.css';
 
 export default function App() {
   const [list, setList] = useState([]);
-  const [selectedPokemon, setSelectedPokemon] = useState('');
+  const [selectedPokemon, setSelectedPokemon] = useState('bulbasaur');
   const [pokemonId, setPokemonId] = useState(1);
 
   async function getPokemons() {
@@ -16,6 +16,7 @@ export default function App() {
   }
 
   const handleSelected = (pokemon) => {
+    console.log('POKEMON::', pokemon);
     setSelectedPokemon(pokemon);
     let pokemon_species = list.find((species) => {
       return species.name === pokemon;
@@ -24,12 +25,23 @@ export default function App() {
     let id = url.match(/(\d+)/)[0];
     setPokemonId(id);
   };
+
   const handleNext = () => {
-    setPokemonId(pokemonId + 1)
-  }
+    setPokemonId(pokemonId + 1);
+    let name = list.findIndex((species) => {
+      return species.name === selectedPokemon;
+    });
+    setSelectedPokemon(list[name + 1].name);
+  };
+
   const handlePrevious = () => {
     setPokemonId(pokemonId - 1);
-  } 
+    let name = list.findIndex((species) => {
+      return species.name === selectedPokemon;
+    });
+    setSelectedPokemon(list[name - 1].name);
+  };
+
   useEffect(() => {
     getPokemons();
   }, []);
@@ -37,8 +49,18 @@ export default function App() {
   return (
     <div>
       <h1>PokeDex</h1>
-      <PokemonSelector list={list} pokemonSelected={handleSelected} />
-      <PokeCard pokemon={selectedPokemon} id={pokemonId} nextPokemon={handleNext} prevPokemon={handlePrevious}/>
+      <PokemonSelector
+        list={list}
+        pokemonSelected={handleSelected}
+        id={pokemonId}
+        activePokemon={selectedPokemon}
+      />
+      <PokeCard
+        pokemon={selectedPokemon}
+        id={pokemonId}
+        nextPokemon={handleNext}
+        prevPokemon={handlePrevious}
+      />
     </div>
   );
 }
